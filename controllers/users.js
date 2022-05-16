@@ -17,7 +17,16 @@ export const signup = catchAsync(async (req, res) => {
     const user = await User.create({ name: name, email: email, password: hashedPassword, isSuspended: isSuspended });
     const token = jwt.sign({ email: user.email, id: user._id }, JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(202).json({ message: "Success", data: user, token });
+    res.status(202).json([
+        { message: "Success", data: user, token },
+        { rel: "self", method: "GET", href: "http://127.0.0.1" },
+        {
+            rel: "create",
+            method: "POST",
+            title: "Create Person",
+            href: "http://127.0.0.1/person",
+        },
+    ]);
 });
 export const signin = catchAsync(async (req, res) => {
     const { password, email } = req.body;
