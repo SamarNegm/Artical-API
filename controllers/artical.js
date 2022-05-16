@@ -82,3 +82,12 @@ export const updateArtical = catchAsync(async (req, res) => {
 
     res.json(updatedArtical);
 });
+
+export const articalComments = catchAsync(async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No Artical with id: ${id}`);
+    const articals = await Artical.findById(id);
+
+    res.json(articals.comments);
+})

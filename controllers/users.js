@@ -38,4 +38,15 @@ export const notSuspend = catchAsync(async (req, res) => {
 export const suspend = catchAsync(async (req, res) => {
     const SuspendUsers = await User.find().where('isSuspended').equals(true);
     res.status(202).json({ message: "Success", data: SuspendUsers });
+})
+
+export const makeNotSuspend = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const notSuspendUsers = await User.findByIdAndUpdate(id, { 'isSuspended': false }, { new: true })
+    res.status(202).json({ message: "Success", data: notSuspendUsers });
+})
+export const makeSuspend = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const SuspendUsers = await User.findByIdAndUpdate(id, { 'isSuspended': true }, { new: true })
+    res.status(202).json({ message: "Success", data: SuspendUsers });
 }) 
